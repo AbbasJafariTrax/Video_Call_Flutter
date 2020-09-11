@@ -14,13 +14,10 @@ class IndexPage extends StatefulWidget {
 class IndexState extends State<IndexPage> {
   final _channelController = TextEditingController();
 
-  // bool _validateError = false;
-
   ClientRole _role = ClientRole.Broadcaster;
 
   @override
   void dispose() {
-    // dispose input controller
     _channelController.dispose();
     super.dispose();
   }
@@ -39,49 +36,8 @@ class IndexState extends State<IndexPage> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  // Expanded(
-                  //   child: TextField(
-                  //     controller: _channelController,
-                  //     decoration: InputDecoration(
-                  //       errorText:
-                  //           _validateError ? 'Channel name is mandatory' : null,
-                  //       border: UnderlineInputBorder(
-                  //         borderSide: BorderSide(width: 1),
-                  //       ),
-                  //       hintText: 'Channel name',
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
-              // Column(
-              //   children: [
-                  // ListTile(
-                  //   title: Text(ClientRole.Broadcaster.toString()),
-                  //   leading: Radio(
-                  //     value: ClientRole.Broadcaster,
-                  //     groupValue: _role,
-                  //     onChanged: (ClientRole value) {
-                  //       setState(() {
-                  //         _role = value;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  // ListTile(
-                  //   title: Text(ClientRole.Audience.toString()),
-                  //   leading: Radio(
-                  //     value: ClientRole.Audience,
-                  //     groupValue: _role,
-                  //     onChanged: (ClientRole value) {
-                  //       setState(() {
-                  //         _role = value;
-                  //       });
-                  //     },
-                  //   ),
-                  // )
-                // ],
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
@@ -105,16 +61,7 @@ class IndexState extends State<IndexPage> {
   }
 
   Future<void> onJoin() async {
-    // update input validation
-    // setState(() {
-    //   _channelController.text.isEmpty
-    //       ? _validateError = true
-    //       : _validateError = false;
-    // });
-    // if (_channelController.text.isNotEmpty) {
-      // await for camera and mic permissions before pushing video page
       await _handleCameraAndMic();
-      // push video page with given channel name
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -124,7 +71,6 @@ class IndexState extends State<IndexPage> {
           ),
         ),
       );
-    // }
   }
 
   Future<void> _handleCameraAndMic() async {

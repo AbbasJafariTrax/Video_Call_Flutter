@@ -8,13 +8,10 @@ import 'package:flutter/material.dart';
 import '../utils/settings.dart';
 
 class CallPage extends StatefulWidget {
-  /// non-modifiable channel name of the page
   final String channelName;
 
-  /// non-modifiable client role of the page
   final ClientRole role;
 
-  /// Creates a call page with given channel name.
   const CallPage({Key key, this.channelName, this.role}) : super(key: key);
 
   @override
@@ -29,9 +26,7 @@ class _CallPageState extends State<CallPage> {
 
   @override
   void dispose() {
-    // clear users
     _users.clear();
-    // destroy sdk
     _engine.leaveChannel();
     _engine.destroy();
     super.dispose();
@@ -40,7 +35,6 @@ class _CallPageState extends State<CallPage> {
   @override
   void initState() {
     super.initState();
-    // initialize agora sdk
     initialize();
   }
 
@@ -64,7 +58,6 @@ class _CallPageState extends State<CallPage> {
     await _engine.joinChannel(null, widget.channelName, null, 0);
   }
 
-  /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
     _engine = await RtcEngine.create(APP_ID);
     await _engine.enableVideo();
@@ -72,7 +65,6 @@ class _CallPageState extends State<CallPage> {
     await _engine.setClientRole(widget.role);
   }
 
-  /// Add agora event handlers
   void _addAgoraEventHandlers() {
     _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
       setState(() {
@@ -109,7 +101,6 @@ class _CallPageState extends State<CallPage> {
     }));
   }
 
-  /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<StatefulWidget> list = [];
     if (widget.role == ClientRole.Broadcaster) {
@@ -119,12 +110,10 @@ class _CallPageState extends State<CallPage> {
     return list;
   }
 
-  /// Video view wrapper
   Widget _videoView(view) {
     return Expanded(child: Container(child: view));
   }
 
-  /// Video view row wrapper
   Widget _expandedVideoRow(List<Widget> views) {
     final wrappedViews = views.map<Widget>(_videoView).toList();
     return Expanded(
@@ -134,7 +123,6 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  /// Video layout wrapper
   Widget _viewRows() {
     final views = _getRenderViews();
     switch (views.length) {
@@ -172,7 +160,6 @@ class _CallPageState extends State<CallPage> {
     return Container();
   }
 
-  /// Toolbar layout
   Widget _toolbar() {
     if (widget.role == ClientRole.Audience) return Container();
     return Container(
@@ -222,7 +209,6 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  /// Info panel to show logs
   Widget _panel() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 48),
